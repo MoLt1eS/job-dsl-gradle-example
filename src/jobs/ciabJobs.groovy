@@ -14,7 +14,7 @@ folder(basePath) {
 
 createCIABJobs()
 
-void createCIABJobs(){
+void createCIABJobs() {
 
     def constr = new CustomClassLoaderConstructor(this.class.classLoader)
     def yaml = new Yaml(constr)
@@ -28,11 +28,14 @@ void createCIABJobs(){
     // Create/update a pull request job for each config file
     configFiles.each { file ->
         Project projectConfig = yaml.loadAs(file.readToString(), Project.class)
-//        def project = projectConfig.project.replaceAll(' ', '-')
 
         println "[CIAB] Name " + projectConfig.name
 
-        job(projectConfig.name) {
+        def project = projectConfig.name.replaceAll(' ', '-')
+
+        String dirProject = basePath + '/' + project
+
+        job(dirProject) {
             scm {
                 github 'sheehan/gradle-example'
             }

@@ -75,7 +75,6 @@ configFiles.each { file ->
 
     }
 
-    addMultiRepos(currentJob)
 }
 
 

@@ -21,7 +21,7 @@ void createCIABJobs(){
 
     // Build a list of all config files ending in .yml
     def cwd = Executor.currentExecutor().getCurrentWorkspace().absolutize()
-    def configFiles = new FilePath(cwd, 'configs').list('*.yml')
+    def configFiles = new FilePath(cwd, 'src/configs').list('*.yml')
 
     // Create/update a pull request job for each config file
     configFiles.each { file ->

@@ -6,7 +6,7 @@ import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor
 
 
-String basePath = GlobalVar.CONFIG_CIAB_DIR
+String basePath = GlobalVar.CIAB
 
 folder(basePath) {
     description 'Contains all the CIAB related projects'

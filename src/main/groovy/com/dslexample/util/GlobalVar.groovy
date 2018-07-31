@@ -8,9 +8,9 @@ package com.dslexample.util
  */
 final class GlobalVar {
 
-    static String CIAB = "ciab"
+    static String CIAB = "CIAB"
     static String CONFIG_DIR = "src/config/"
-    static String CONFIG_CIAB_DIR = CONFIG_DIR + CIAB
+    static String CONFIG_CIAB_DIR = CONFIG_DIR + "ciab/"
 
     static String GITHUB_REPO_LOCATION_URL = "https://github.com/compareeuropegroup/%s.git"
 

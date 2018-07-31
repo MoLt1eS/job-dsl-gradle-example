@@ -1,0 +1,2 @@
+branch: develop
+buildCommand: ciab-plugin/gradlew :ciab-base:war

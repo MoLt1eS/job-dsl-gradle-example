@@ -8,4 +8,8 @@ class Project {
 
     String name
 
+    String branch
+
+    String buildCommand
+
 }

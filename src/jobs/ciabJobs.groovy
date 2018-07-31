@@ -1,46 +1,54 @@
 import com.dslexample.entities.Project
+import com.dslexample.util.GlobalVar
 import hudson.FilePath
 import hudson.model.Executor
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor
 
 
-String basePath = 'CIAB'
-//String repo = 'compareeuropegroup/ciab-plugin'
+String basePath = GlobalVar.CONFIG_CIAB_DIR
 
 folder(basePath) {
     description 'Contains all the CIAB related projects'
 }
 
-createCIABJobs(basePath)
+def customClassLoaderConstructor = new CustomClassLoaderConstructor(this.class.classLoader)
+def yaml = new Yaml(customClassLoaderConstructor)
 
-void createCIABJobs(String basePath) {
+// Build a list of all config files ending in .yml
+def cwd = Executor.currentExecutor().getCurrentWorkspace().absolutize()
+FilePath[] configFiles = new FilePath(cwd, 'src/configs').list('*.yml')
 
-    def constr = new CustomClassLoaderConstructor(this.class.classLoader)
-    def yaml = new Yaml(constr)
+// Create/update a pull request job for each config file
+configFiles.each { file ->
 
-    // Build a list of all config files ending in .yml
-    def cwd = Executor.currentExecutor().getCurrentWorkspace().absolutize()
-    def configFiles = new FilePath(cwd, 'src/configs').list('*.yml')
+    Project projectConfig = yaml.loadAs(file.readToString(), Project.class)
 
-    println "[CIAB] Loaded all config files..."
+    println "[CIAB] Name " + projectConfig.name + " file name " + file.name.replace(".yml", '')
 
-    // Create/update a pull request job for each config file
-    configFiles.each { file ->
-        Project projectConfig = yaml.loadAs(file.readToString(), Project.class)
+    // Change the spaces to '-'
+    def project = projectConfig.name.replaceAll(' ', '-')
 
-        println "[CIAB] Name " + projectConfig.name
+    String dirProject = basePath + '/' + project
 
-        def project = projectConfig.name.replaceAll(' ', '-')
-
-        String dirProject = basePath + '/' + project
-
-        job(dirProject) {
-            scm {
-                github 'sheehan/gradle-example'
+    job(dirProject) {
+        scm {
+            git {
+                remote {
+                    url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-plugin'))
+                }
+                branch(projectConfig.branch)
+                extensions {
+                    relativeTargetDirectory('ciab')
+                }
             }
         }
+
+        steps {
+            shell("echo 'hello world'")
+        }
+
     }
-
-
 }
+
+

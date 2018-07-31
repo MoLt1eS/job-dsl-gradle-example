@@ -1,0 +1,3 @@
+name: beta staging build
+branch: staging
+buildCommand: ciab-plugin/gradlew :ciab-base:war

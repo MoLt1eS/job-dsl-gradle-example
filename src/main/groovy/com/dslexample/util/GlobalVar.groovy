@@ -14,4 +14,6 @@ final class GlobalVar {
 
     static String GITHUB_REPO_LOCATION_URL = "https://github.com/compareeuropegroup/%s.git"
 
+    static String GITHUB_CREDENTIALS_ID = "github-1"
+
 }

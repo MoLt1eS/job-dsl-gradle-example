@@ -38,6 +38,7 @@ configFiles.each { file ->
         scm {
             git {
                 remote {
+                    credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
                     url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-plugin'))
                 }
                 branch(projectConfig.branch)

@@ -48,31 +48,31 @@ configFiles.each { file ->
                 }
             }
 
-            git {
-                remote {
-                    credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
-                    url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-base'))
-                }
-                branch(projectConfig.branch)
-                extensions {
-                    relativeTargetDirectory('ciab')
-                }
-            }
-
-//            println "Preprating to iterate stuff"
-//            GlobalVar.CIAB_PROJECTS.each { pName ->
-//                println "Iterating ${pName}"
-//                git {
-//                    remote {
-//                        credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
-//                        url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, pName))
-//                    }
-//                    branch(projectConfig.branch)
-//                    extensions {
-//                        relativeTargetDirectory('ciab/${pName}')
-//                    }
+//            git {
+//                remote {
+//                    credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
+//                    url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-base'))
+//                }
+//                branch(projectConfig.branch)
+//                extensions {
+//                    relativeTargetDirectory('ciab')
 //                }
 //            }
+
+            println "Preprating to iterate stuff"
+            GlobalVar.CIAB_PROJECTS.each { pName ->
+                println "Iterating ${pName}"
+                git {
+                    remote {
+                        credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
+                        url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, pName))
+                    }
+                    branch(projectConfig.branch)
+                    extensions {
+                        relativeTargetDirectory('ciab/${pName}')
+                    }
+                }
+            }
 
         }
 

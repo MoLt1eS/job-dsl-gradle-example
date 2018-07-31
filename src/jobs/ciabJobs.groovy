@@ -48,7 +48,9 @@ configFiles.each { file ->
                 }
             }
 
+            println "Preprating to iterate stuff"
             GlobalVar.CIAB_PROJECTS.each { pName ->
+                println "Iterating ${pName}"
                 git {
                     remote {
                         credentials(GlobalVar.GITHUB_CREDENTIALS_ID)

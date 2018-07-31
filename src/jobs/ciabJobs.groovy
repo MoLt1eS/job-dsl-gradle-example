@@ -38,6 +38,36 @@ configFiles.each { file ->
     String dirProject = basePath + '/' + project
 
     def currentJob = job(dirProject) {
+        multiscm {
+
+            git {
+                remote {
+                    credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
+                    url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-plugin'))
+                }
+                branch(projectConfig.branch)
+                extensions {
+                    relativeTargetDirectory('ciab')
+                }
+            }
+
+            println "Preprating to iterate stuff"
+            GlobalVar.CIAB_PROJECTS.each { pName ->
+                println "Iterating ${pName}"
+                git {
+                    remote {
+                        credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
+                        url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, pName))
+                    }
+                    branch(projectConfig.branch)
+                    extensions {
+                        relativeTargetDirectory('ciab/${pName}')
+                    }
+                }
+            }
+
+        }
+
 
         steps {
             shell("echo 'hello world'")
@@ -48,38 +78,5 @@ configFiles.each { file ->
     addMultiRepos(currentJob)
 }
 
-void addMultiRepos(Job job) {
-
-    ScmContext context
-
-    context.git {
-        remote {
-            credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
-            url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-plugin'))
-        }
-        branch(projectConfig.branch)
-        extensions {
-            relativeTargetDirectory('ciab')
-        }
-    }
-
-    println "Preprating to iterate stuff"
-    GlobalVar.CIAB_PROJECTS.each { pName ->
-        println "Iterating ${pName}"
-        context.git {
-            remote {
-                credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
-                url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, pName))
-            }
-            branch(projectConfig.branch)
-            extensions {
-                relativeTargetDirectory('ciab/${pName}')
-            }
-        }
-    }
-
-    job.multiscm(context)
-
-}
 
 

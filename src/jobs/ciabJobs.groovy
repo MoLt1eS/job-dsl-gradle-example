@@ -5,6 +5,9 @@ import hudson.model.Executor
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor
 
+/**
+ * This script is to create CIAB build only jobs
+ */
 
 String basePath = GlobalVar.CIAB
 
@@ -19,7 +22,7 @@ def yaml = new Yaml(customClassLoaderConstructor)
 def cwd = Executor.currentExecutor().getCurrentWorkspace().absolutize()
 FilePath[] configFiles = new FilePath(cwd, GlobalVar.CONFIG_DIR).list('*.yml')
 
-// Create/update a pull request job for each config file
+
 configFiles.each { file ->
 
     Project projectConfig = yaml.loadAs(file.readToString(), Project.class)

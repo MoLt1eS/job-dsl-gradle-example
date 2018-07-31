@@ -12,9 +12,9 @@ folder(basePath) {
     description 'Contains all the CIAB related projects'
 }
 
-createCIABJobs()
+createCIABJobs(basePath)
 
-void createCIABJobs() {
+void createCIABJobs(String basePath) {
 
     def constr = new CustomClassLoaderConstructor(this.class.classLoader)
     def yaml = new Yaml(constr)

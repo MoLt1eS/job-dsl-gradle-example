@@ -35,36 +35,34 @@ configFiles.each { file ->
     String dirProject = basePath + '/' + project
 
     job(dirProject) {
-        scm {
-            multiscm {
+        multiscm {
 
+            git {
+                remote {
+                    credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
+                    url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-plugin'))
+                }
+                branch(projectConfig.branch)
+                extensions {
+                    relativeTargetDirectory('ciab')
+                }
+            }
+
+            GlobalVar.CIAB_PROJECTS.each { pName ->
                 git {
                     remote {
                         credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
-                        url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-plugin'))
+                        url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, pName))
                     }
                     branch(projectConfig.branch)
                     extensions {
-                        relativeTargetDirectory('ciab')
+                        relativeTargetDirectory('ciab/${pName}')
                     }
                 }
-
-                GlobalVar.CIAB_PROJECTS.each { pName ->
-                    git {
-                        remote {
-                            credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
-                            url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, pName))
-                        }
-                        branch(projectConfig.branch)
-                        extensions {
-                            relativeTargetDirectory('ciab/${pName}')
-                        }
-                    }
-                }
-
             }
 
         }
+
 
         steps {
             shell("echo 'hello world'")

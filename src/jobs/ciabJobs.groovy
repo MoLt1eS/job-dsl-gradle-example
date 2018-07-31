@@ -2,6 +2,9 @@ import com.dslexample.entities.Project
 import com.dslexample.util.GlobalVar
 import hudson.FilePath
 import hudson.model.Executor
+import javaposse.jobdsl.dsl.Job
+import javaposse.jobdsl.dsl.helpers.ScmContext
+import javaposse.jobdsl.dsl.helpers.scm.GitContext
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor
 
@@ -34,43 +37,49 @@ configFiles.each { file ->
 
     String dirProject = basePath + '/' + project
 
-    job(dirProject) {
-        multiscm {
-
-            git {
-                remote {
-                    credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
-                    url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-plugin'))
-                }
-                branch(projectConfig.branch)
-                extensions {
-                    relativeTargetDirectory('ciab')
-                }
-            }
-
-            println "Preprating to iterate stuff"
-            GlobalVar.CIAB_PROJECTS.each { pName ->
-                println "Iterating ${pName}"
-                git {
-                    remote {
-                        credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
-                        url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, pName))
-                    }
-                    branch(projectConfig.branch)
-                    extensions {
-                        relativeTargetDirectory('ciab/${pName}')
-                    }
-                }
-            }
-
-        }
-
+    def currentJob = job(dirProject) {
 
         steps {
             shell("echo 'hello world'")
         }
 
     }
+
+    addMultiRepos(currentJob)
+}
+
+void addMultiRepos(Job job) {
+
+    ScmContext context
+
+    context.git {
+        remote {
+            credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
+            url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-plugin'))
+        }
+        branch(projectConfig.branch)
+        extensions {
+            relativeTargetDirectory('ciab')
+        }
+    }
+
+    println "Preprating to iterate stuff"
+    GlobalVar.CIAB_PROJECTS.each { pName ->
+        println "Iterating ${pName}"
+        context.git {
+            remote {
+                credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
+                url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, pName))
+            }
+            branch(projectConfig.branch)
+            extensions {
+                relativeTargetDirectory('ciab/${pName}')
+            }
+        }
+    }
+
+    job.multiscm(context)
+
 }
 
 

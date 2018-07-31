@@ -23,6 +23,8 @@ void createCIABJobs(){
     def cwd = Executor.currentExecutor().getCurrentWorkspace().absolutize()
     def configFiles = new FilePath(cwd, 'src/configs').list('*.yml')
 
+    println "[TIAGO] Im doing stuff??"
+
     // Create/update a pull request job for each config file
     configFiles.each { file ->
         Project projectConfig = yaml.loadAs(file.readToString(), Project.class)

@@ -20,7 +20,7 @@ def yaml = new Yaml(customClassLoaderConstructor)
 
 // Build a list of all config files ending in .yml
 def cwd = Executor.currentExecutor().getCurrentWorkspace().absolutize()
-FilePath[] configFiles = new FilePath(cwd, GlobalVar.CONFIG_DIR).list('*.yml')
+FilePath[] configFiles = new FilePath(cwd, GlobalVar.CONFIG_CIAB_DIR).list('*.yml')
 
 
 configFiles.each { file ->

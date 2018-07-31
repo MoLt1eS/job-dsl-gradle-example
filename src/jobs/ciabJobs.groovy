@@ -2,9 +2,6 @@ import com.dslexample.entities.Project
 import com.dslexample.util.GlobalVar
 import hudson.FilePath
 import hudson.model.Executor
-import javaposse.jobdsl.dsl.Job
-import javaposse.jobdsl.dsl.helpers.ScmContext
-import javaposse.jobdsl.dsl.helpers.scm.GitContext
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.constructor.CustomClassLoaderConstructor
 
@@ -44,6 +41,17 @@ configFiles.each { file ->
                 remote {
                     credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
                     url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-plugin'))
+                }
+                branch(projectConfig.branch)
+                extensions {
+                    relativeTargetDirectory('ciab')
+                }
+            }
+
+            git {
+                remote {
+                    credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
+                    url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-base'))
                 }
                 branch(projectConfig.branch)
                 extensions {

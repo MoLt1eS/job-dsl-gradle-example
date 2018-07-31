@@ -16,4 +16,7 @@ final class GlobalVar {
 
     static String GITHUB_CREDENTIALS_ID = "github-1"
 
+    static String[] CIAB_PROJECTS = ["ciab-broadband", "ciab-carinsurance", "ciab-core", "ciab-customercloud", "ciab-finance", "ciab-landing", "ciab-learningcenter", "ciab-payment", "ciab-sim", "ciab-telcoproviders", "ciab-travelinsurance", "ciab-views", "ciab-base"]
+
 }
+

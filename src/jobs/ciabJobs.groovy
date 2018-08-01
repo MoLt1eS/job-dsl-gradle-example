@@ -68,7 +68,7 @@ configFiles.each { file ->
 
 
         steps {
-            shell("echo 'hello world'")
+            shell(projectConfig.buildCommand)
         }
 
     }

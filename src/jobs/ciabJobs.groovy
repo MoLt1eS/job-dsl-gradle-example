@@ -47,7 +47,8 @@ configFiles.each { file ->
                     credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
                     url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-plugin'))
                 }
-                branch(projectConfig.branch)
+                branch("build-testing")
+//                branch(projectConfig.branch)
                 extensions {
                     relativeTargetDirectory('.')
                 }

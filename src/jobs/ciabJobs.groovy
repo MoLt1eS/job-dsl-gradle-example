@@ -40,7 +40,7 @@ configFiles.each { file ->
             git {
                 remote {
                     credentials(GlobalVar.GITHUB_CREDENTIALS_ID)
-                    url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-plugin'))
+                    url(String.format(GlobalVar.GITHUB_REPO_LOCATION_URL, 'ciab-base'))
                 }
                 branch(projectConfig.branch)
                 extensions {

@@ -44,7 +44,7 @@ configFiles.each { file ->
                 }
                 branch(projectConfig.branch)
                 extensions {
-                    relativeTargetDirectory('ciab')
+                    relativeTargetDirectory('.')
                 }
             }
 
@@ -59,7 +59,7 @@ configFiles.each { file ->
                     }
                     branch(projectConfig.branch)
                     extensions {
-                        relativeTargetDirectory('ciab/'+pName)
+                        relativeTargetDirectory(pName)
                     }
                 }
             }

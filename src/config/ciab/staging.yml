@@ -1,3 +1,3 @@
 name: beta staging build
 branch: staging
-buildCommand: ciab/ciab-base/gradlew war -Pciab.env=beta_staging
+buildCommand: ./gradlew war -Pciab.env=beta_staging

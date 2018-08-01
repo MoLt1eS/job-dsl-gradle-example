@@ -1,3 +1,0 @@
-name: release build
-branch: master
-buildCommand: ciab/ciab-base/gradlew war -Pciab.env=beta_staging

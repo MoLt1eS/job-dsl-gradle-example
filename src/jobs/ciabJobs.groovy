@@ -77,6 +77,11 @@ configFiles.each { file ->
             shell(projectConfig.buildCommand)
         }
 
+
+        publishers {
+            archiveArtifacts('ciab-base/build/libs/*.war')
+        }
+
     }
 
 }
